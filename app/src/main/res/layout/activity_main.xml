@@ -30,16 +30,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/tv_company_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/company_description"
             app:layout_constraintTop_toBottomOf="@+id/tv_company_header" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

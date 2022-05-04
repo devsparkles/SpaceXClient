@@ -27,10 +27,10 @@ fun CompanyDTO?.toDomain(): Company {
     return Company(
         this?.name,
         this?.founder,
-        this?.founded,
-        this?.employees,
-        this?.launch_sites,
-        this?.valuation
+        this?.founded.toString(),
+        this?.employees.toString(),
+        this?.launch_sites.toString(),
+        this?.valuation.toString()
     )
 }
 

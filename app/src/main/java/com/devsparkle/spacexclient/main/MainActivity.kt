@@ -1,6 +1,8 @@
 package com.devsparkle.spacexclient.main
 
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -39,12 +41,14 @@ class MainActivity : AppCompatActivity() {
 
         setUpLaunchRecyclerView()
         setUpResourceObserver()
-        setUpCompany()
-        setUpLaunches()
 
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        setUpCompany()
+        setUpLaunches()
+    }
     private fun setUpLaunchRecyclerView() = with(binding.launchRecyclerView) {
         val layoutManager = GridLayoutManager(context, 2)
 
@@ -55,11 +59,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun onLaunchSelected(launch: Launch) {
         Toast.makeText(binding.root.context, "Launch ${launch.missionName}", Toast.LENGTH_SHORT)
+            .show()
     }
 
     private fun setUpResourceObserver() {
         viewModel.companyDetails.observeResource(
-            this@MainActivity, success = ::onCompanyReceived
+            this@MainActivity,
+            loading = ::onCompanyLoading,
+            success = ::onCompanyReceived,
+            error = ::onCompanyError,
+            successWithoutContent = {}
         )
 
     }
@@ -72,20 +81,26 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun onCompanyLoading() {
+
+    }
+
+    private fun onCompanyError(exception: Exception) {
+        Toast.makeText(this, exception.message, Toast.LENGTH_LONG).show()
+    }
+
     private fun onCompanyReceived(company: Company?) {
-
         company?.let {
-
             binding.clCompany.visibility = View.VISIBLE
-            binding.tvCompanyDescription.text = getString(
-                R.string.company_description,
-                company.companyName,
-                company.founderName,
-                company.year,
-                company.employees,
-                company.launchSites,
-                company.valuation
-            )
+//            binding.tvCompanyDescription.text = getString(
+//                R.string.company_description,
+//                it.companyName,
+//                it.founderName,
+//                it.year,
+//                it.employees,
+//                it.launchSites,
+//                it.valuation
+//            )
         } ?: run {
             // no company loaded
             // hide company block

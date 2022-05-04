@@ -1,11 +1,11 @@
 ext {
 
-    STAGING_API_URL = '\"https://api.spacexdata.com/v4/\"'
+    STAGING_API_URL = '\"https://api.spacexdata.com/\"'
 
-    DEBUG_API_URL = '\"https://api.spacexdata.com/v4/\"'
+    DEBUG_API_URL = '\"https://api.spacexdata.com/\"'
 
-    UAT_API_URL = '\"https://api.spacexdata.com/v4/\"'
+    UAT_API_URL = '\"https://api.spacexdata.com/\"'
 
-    RELEASE_API_URL = '\"https://api.spacexdata.com/v4/\"'
+    RELEASE_API_URL = '\"https://api.spacexdata.com/\"'
 
 }

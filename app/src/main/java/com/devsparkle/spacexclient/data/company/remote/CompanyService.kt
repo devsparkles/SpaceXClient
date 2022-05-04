@@ -5,6 +5,6 @@ import retrofit2.http.GET
 
 interface CompanyService {
 
-    @GET("/company")
+    @GET("/v4/company")
     suspend fun getCompanyInfo(): CompanyDTO?
 }
