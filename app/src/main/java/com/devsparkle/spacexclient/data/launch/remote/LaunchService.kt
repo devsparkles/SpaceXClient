@@ -5,7 +5,7 @@ import retrofit2.http.GET
 
 interface LaunchService {
 
-    @GET("/launches")
+    @GET("/v4/launches")
     suspend fun getLaunchesList(): List<LaunchDTO>?
 
 }

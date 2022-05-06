@@ -1,4 +1,4 @@
 package com.devsparkle.spacexclient.domain.model
 
-data class Rocket(val name: String,
-val type: String)
+data class Rocket(var name: String?,
+var type: String?)

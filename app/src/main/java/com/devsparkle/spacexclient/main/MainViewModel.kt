@@ -18,8 +18,8 @@ class MainViewModel(
     private val coroutineContext: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _launches = MutableLiveData<Resource<List<Launch>>>()
-    val launches: LiveData<Resource<List<Launch>>> = _launches
+    private val _launches = MutableLiveData<List<Launch>>()
+    val launches: LiveData<List<Launch>> = _launches
 
     private val _companyDetails = MutableLiveData<Resource<Company>>()
     val companyDetails: LiveData<Resource<Company>> = _companyDetails
@@ -34,7 +34,6 @@ class MainViewModel(
 
     fun getAllLaunches() {
         viewModelScope.launch(coroutineContext) {
-            _launches.postValue(Resource.Loading())
             val response = getLaunchList.invoke()
             _launches.postValue(response)
         }

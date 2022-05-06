@@ -17,8 +17,8 @@ class LaunchAdapter(private val clickCallback: ((Launch) -> Unit)) :
         notifyDataSetChanged()
     }
 
-    fun updateLaunches(issues: List<Launch>) {
-        this.launches = this.launches.plus(issues)
+    fun updateLaunches(lauches: List<Launch>) {
+        this.launches = this.launches.plus(lauches)
         notifyDataSetChanged()
     }
 
@@ -43,12 +43,12 @@ class LaunchAdapter(private val clickCallback: ((Launch) -> Unit)) :
                 .fitCenter().into(binding.ivPathSmall)
 
             binding.tvMissionValue.text = launch.missionName
-            binding.tvDateTimeValue.text =
-                binding.root.context.getString(R.string.date_time_value, launch.date, launch.time)
+//            binding.tvDateTimeValue.text =
+//                binding.root.context.getString(R.string.date_time_value, launch.date, launch.time)
             binding.tvRocketValue.text = binding.root.context.getString(
                 R.string.rocket_value,
-                launch.rocket.name,
-                launch.rocket.type
+                launch.rocket?.name,
+                launch.rocket?.type
             )
 
             // today - launchdate = days since/from now
@@ -56,13 +56,18 @@ class LaunchAdapter(private val clickCallback: ((Launch) -> Unit)) :
             // convert to days
 //            binding.tvDaysSinceFromNow.text =
 //            binding.tvDaysSinceFromNowValue.text =
-            if (launch.success) {
-                Glide.with(binding.root.context).asBitmap().load(R.drawable.ic_baseline_done_24)
-                    .fitCenter().into(binding.ivSuccessFail)
-            } else {
-                Glide.with(binding.root.context).asBitmap().load(R.drawable.ic_baseline_clear_24)
-                    .fitCenter().into(binding.ivSuccessFail)
+
+
+            launch.success?.let {
+                if (it) {
+                    Glide.with(binding.root.context).asBitmap().load(R.drawable.ic_baseline_done_24)
+                        .fitCenter().into(binding.ivSuccessFail)
+                } else {
+                    Glide.with(binding.root.context).asBitmap().load(R.drawable.ic_baseline_clear_24)
+                        .fitCenter().into(binding.ivSuccessFail)
+                }
             }
+
 
             binding.root.setOnClickListener { clickCallback(launch) }
 

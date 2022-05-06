@@ -1,11 +1,12 @@
 package com.devsparkle.spacexclient.main
 
 import android.os.Bundle
-import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.devsparkle.spacexclient.R
 import com.devsparkle.spacexclient.base.resource.observeResource
 import com.devsparkle.spacexclient.databinding.ActivityMainBinding
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setUpLaunchRecyclerView() = with(binding.launchRecyclerView) {
-        val layoutManager = GridLayoutManager(context, 2)
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         setHasFixedSize(true)
         this.layoutManager = layoutManager
@@ -68,6 +69,11 @@ class MainActivity : AppCompatActivity() {
             error = ::onCompanyError,
             successWithoutContent = {}
         )
+        viewModel.launches.observe(
+            this@MainActivity
+        ) {
+            onLaunchesReceived(it)
+        }
     }
 
     private fun setUpCompany() {
@@ -75,20 +81,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpLaunches() {
-
+        viewModel.getAllLaunches()
     }
 
     private fun onCompanyLoading() {
-
+        showMessage("company loading")
     }
 
     private fun onCompanyError(exception: Exception) {
-        Toast.makeText(this, exception.message, Toast.LENGTH_LONG).show()
+        showMessage("error company loading")
     }
 
     private fun onCompanyReceived(company: Company?) {
         company?.let {
-            binding.clCompany.visibility = View.VISIBLE
             binding.tvCompanyDescription.text = getString(
                 R.string.company_description,
                 it.companyName,
@@ -99,12 +104,21 @@ class MainActivity : AppCompatActivity() {
                 it.valuation
             )
         } ?: run {
-            // no company loaded
-            // hide company block
-            binding.clCompany.visibility = View.GONE
+            showMessage("no company to show")
         }
-
-
     }
+
+    private fun onLaunchesReceived(lauches: List<Launch>?) {
+        lauches?.let {
+            launchAdapter.updateLaunches(lauches)
+        } ?: run {
+            showMessage("no launches to show")
+        }
+    }
+
+    private fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
 
 }

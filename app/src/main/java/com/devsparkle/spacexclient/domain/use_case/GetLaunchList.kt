@@ -7,7 +7,7 @@ import com.devsparkle.spacexclient.domain.repository.LaunchRepository
 class GetLaunchList(
     private val launchRepository: LaunchRepository
 ) {
-    suspend operator fun invoke(): Resource<List<Launch>> {
+    suspend operator fun invoke(): List<Launch> {
         return launchRepository.getAllLaunches()
     }
 }

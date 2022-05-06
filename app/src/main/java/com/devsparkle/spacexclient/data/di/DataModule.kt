@@ -4,6 +4,7 @@ import com.devsparkle.spacexclient.data.company.CompanyRepositoryImpl
 import com.devsparkle.spacexclient.data.company.remote.CompanyService
 import com.devsparkle.spacexclient.data.launch.LaunchRepositoryImpl
 import com.devsparkle.spacexclient.data.launch.remote.LaunchService
+import com.devsparkle.spacexclient.data.rocket.remote.RocketService
 import com.devsparkle.spacexclient.data.utils.SpaceXApi.Companion.createSpaceXRetrofit
 import com.devsparkle.spacexclient.domain.repository.CompanyRepository
 import com.devsparkle.spacexclient.domain.repository.LaunchRepository
@@ -23,7 +24,8 @@ val dataModule = module {
     }
     factory {
         LaunchRepositoryImpl(
-            get<LaunchService>()
+            get<LaunchService>(),
+            get<RocketService>()
         ) as LaunchRepository
     }
 
@@ -44,6 +46,12 @@ val dataModule = module {
             get<Retrofit>(named(SPACEX_RETROFIT))
         )
     }
+
+    factory {
+        getRocketService(
+            get<Retrofit>(named(SPACEX_RETROFIT))
+        )
+    }
 }
 
 private fun getCompanyService(retrofit: Retrofit): CompanyService =
@@ -51,4 +59,7 @@ private fun getCompanyService(retrofit: Retrofit): CompanyService =
 
 private fun getLaunchService(retrofit: Retrofit): LaunchService =
     retrofit.create(LaunchService::class.java)
+
+private fun getRocketService(retrofit: Retrofit): RocketService =
+    retrofit.create(RocketService::class.java)
 
