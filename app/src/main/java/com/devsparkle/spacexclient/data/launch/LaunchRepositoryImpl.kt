@@ -38,7 +38,8 @@ class LaunchRepositoryImpl(
                         missionPatchSmallImageUrl = launch.links?.patch?.small,
                         missionPatchLargeImageUrl = launch.links?.patch?.large,
                         missionName = launch.name,
-                        dateAndTime = launch.dateAndTime,
+                        dateUtc = launch.dateUtc,
+                        dateLocal= launch.dateLocal,
                         rocket,
                         success = launch.success,
                     )

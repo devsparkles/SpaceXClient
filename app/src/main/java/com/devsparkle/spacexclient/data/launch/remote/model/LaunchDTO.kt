@@ -6,7 +6,9 @@ data class LaunchDTO(
     val name: String?,
     val links: LinkDTO?,
     @SerializedName("date_utc")
-    val dateAndTime: String?,
+    val dateUtc: String?,
+    @SerializedName("date_local")
+    val dateLocal: String?,
     @SerializedName("rocket")
     val rocketId: String?,
     val success: Boolean?
