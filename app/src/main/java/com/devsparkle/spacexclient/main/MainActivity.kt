@@ -1,6 +1,7 @@
 package com.devsparkle.spacexclient.main
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
 
-    private val TAG: String = "MainACtivityu"
+    private val TAG: String = "MainActivity"
 
     private val viewModel by viewModel<MainViewModel>()
 
@@ -90,6 +91,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onCompanyError(exception: Exception) {
         showMessage("error company loading")
+        Log.d(TAG, exception.message ?: "")
     }
 
     private fun onCompanyReceived(company: Company?) {
