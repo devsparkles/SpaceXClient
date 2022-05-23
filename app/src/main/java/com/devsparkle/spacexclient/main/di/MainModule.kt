@@ -1,6 +1,7 @@
 package com.devsparkle.spacexclient.main.di
 
 import android.view.View
+import com.devsparkle.spacexclient.data.launch.filter.LaunchFilterCache
 import com.devsparkle.spacexclient.domain.model.Launch
 import com.devsparkle.spacexclient.domain.use_case.GetCompanyDetail
 import com.devsparkle.spacexclient.domain.use_case.GetLaunchList
@@ -16,6 +17,7 @@ val mainModule = module {
         MainViewModel(
             get<GetLaunchList>(),
             get<GetCompanyDetail>(),
+            get<LaunchFilterCache>(),
             get<CoroutineDispatcher>()
         )
     }
