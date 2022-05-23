@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.devsparkle.spacexclient.R
 import com.devsparkle.spacexclient.databinding.ViewHolderLaunchBinding
 import com.devsparkle.spacexclient.domain.model.Launch
@@ -47,7 +48,8 @@ class LaunchAdapter(private val clickCallback: ((Launch) -> Unit)) :
         fun bind(launch: Launch) {
 
             Glide.with(binding.root.context).asBitmap().load(launch.missionPatchSmallImageUrl)
-                .fitCenter().into(binding.ivPathSmall)
+                .fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.ivPathSmall)
 
             binding.tvMissionValue.text = launch.missionName
 
@@ -81,8 +83,7 @@ class LaunchAdapter(private val clickCallback: ((Launch) -> Unit)) :
                         .load(R.drawable.ic_baseline_done_24)
                         .fitCenter().into(binding.ivSuccessFail)
                 } else {
-                    Glide.with(binding.root.context).asBitmap()
-                        .load(R.drawable.ic_baseline_clear_24)
+                    Glide.with(binding.root.context).asBitmap().load(R.drawable.ic_baseline_clear_24)
                         .fitCenter().into(binding.ivSuccessFail)
                 }
             }

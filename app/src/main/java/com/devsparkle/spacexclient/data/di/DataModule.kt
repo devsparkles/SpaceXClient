@@ -37,7 +37,7 @@ val dataModule = module {
 
 
     single(named(SPACEX_RETROFIT)) {
-        createSpaceXRetrofit()
+        createSpaceXRetrofit(androidContext())
     }
 
     factory {

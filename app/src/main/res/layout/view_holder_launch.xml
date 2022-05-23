@@ -69,7 +69,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:labelFor="@+id/tv_days_since_from_now_value"
-                    android:text="placeholder"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_rocket" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -116,7 +115,6 @@
                     style="@style/SmallGreyTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="placeholder"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_rocket_value" />
 

@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.devsparkle.spacexclient"
-        minSdk 21
+        minSdk 26
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -141,5 +141,9 @@ dependencies {
 
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
+
+    // fix to compile the project on Apple Silicon M1 device
+    // source -> https://youtrack.jetbrains.com/issue/DBE-12342
+    kapt "org.xerial:sqlite-jdbc:3.34.0"
 
 }
