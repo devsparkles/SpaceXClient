@@ -151,4 +151,9 @@ dependencies {
     // fix to compile the project on Apple Silicon M1 device
     // source -> https://youtrack.jetbrains.com/issue/DBE-12342
     kapt "org.xerial:sqlite-jdbc:$sqliteJdbcVersion"
+
+
+
+
+
 }

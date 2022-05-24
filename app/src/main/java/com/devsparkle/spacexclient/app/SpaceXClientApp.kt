@@ -1,10 +1,9 @@
 package com.devsparkle.spacexclient.app
 
 import android.app.Application
-import com.devsparkle.spacexclient.app.di.appModule
-import com.devsparkle.spacexclient.app.di.networkModule
 import com.devsparkle.spacexclient.base.di.baseModule
-import com.devsparkle.spacexclient.data.di.dataModule
+import com.devsparkle.spacexclient.data.di.localDataModule
+import com.devsparkle.spacexclient.data.di.remoteDataModule
 import com.devsparkle.spacexclient.domain.di.domainModule
 import com.devsparkle.spacexclient.main.di.mainModule
 import org.koin.android.ext.koin.androidContext
@@ -24,11 +23,14 @@ class SpaceXClientApp : Application() {
             androidContext(this@SpaceXClientApp)
             modules(
                 listOf(
-                    appModule,
+                    // shared module
                     baseModule,
-                    networkModule,
+                    // data remote and local module
+                    localDataModule,
+                    remoteDataModule,
+                    // dto objects and use cases
                     domainModule,
-                    dataModule,
+                    // domain modules
                     mainModule
                 )
             )
