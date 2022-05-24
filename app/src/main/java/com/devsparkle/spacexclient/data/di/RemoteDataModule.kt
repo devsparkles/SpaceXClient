@@ -22,13 +22,13 @@ val remoteDataModule = module {
     factory {
         CompanyRepositoryImpl(
             get<CompanyService>()
-        )
+        ) as CompanyRepository
     }
     factory {
         LaunchRepositoryImpl(
             get<LaunchService>(),
             get<RocketService>()
-        )
+        ) as LaunchRepository
     }
 
 
