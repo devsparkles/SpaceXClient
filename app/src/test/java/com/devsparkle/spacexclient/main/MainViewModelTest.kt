@@ -2,19 +2,14 @@ package com.devsparkle.spacexclient.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.devsparkle.spacexclient.data.company.remote.CompanyService
-import com.devsparkle.spacexclient.data.launch.LaunchRepositoryImpl
 import com.devsparkle.spacexclient.data.launch.remote.LaunchService
-import com.devsparkle.spacexclient.domain.repository.LaunchRepository
 import com.devsparkle.spacexclient.domain.use_case.GetCompanyDetail
 import com.devsparkle.spacexclient.domain.use_case.GetLaunchList
 import com.devsparkle.spacexclient.utils.CommonTestDataUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import okhttp3.OkHttpClient
@@ -33,7 +28,6 @@ import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 

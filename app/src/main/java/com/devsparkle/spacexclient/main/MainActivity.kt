@@ -1,16 +1,11 @@
 package com.devsparkle.spacexclient.main
 
-import android.content.Context
-import android.graphics.PorterDuff
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.devsparkle.spacexclient.R
 import com.devsparkle.spacexclient.base.resource.observeResource
 import com.devsparkle.spacexclient.databinding.ActivityMainBinding
@@ -18,17 +13,20 @@ import com.devsparkle.spacexclient.domain.model.Company
 import com.devsparkle.spacexclient.domain.model.Launch
 import com.devsparkle.spacexclient.main.adapter.LaunchAdapter
 import com.devsparkle.spacexclient.main.filter.LaunchFilterDialog
+import com.devsparkle.spacexclient.utils.EndlessRecyclerViewScrollListener
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
-
     private val TAG: String = "MainActivity"
+
+    private var isFirstLaunch = true
     lateinit var binding: ActivityMainBinding
     private val viewModel by viewModel<MainViewModel>()
-    private val launchAdapter by inject<LaunchAdapter> {
+    private val adapter by inject<LaunchAdapter> {
         parametersOf(
             { launch: Launch -> onLaunchSelected(launch) },
         )
@@ -38,48 +36,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
-        setUpLaunchRecyclerView()
-        setUpResourceObserver()
-        setUpCompany()
-        setUpLaunches()
-        setFilterIcon()
         setUpButton()
+        setupSwipeToRefresh()
+        setUpRecyclerView()
+        setUpResourceObserver()
+        onFirstLaunch()
     }
 
-    private fun setUpButton() = with(binding) {
-        filterImage.setOnClickListener {
-            showEditDialog()
+    private fun onFirstLaunch() {
+        if (isFirstLaunch) {
+            viewModel.getCompany()
+            viewModel.getLaunches()
+            isFirstLaunch = false
         }
     }
 
-    fun setFilterIcon() {
-        if (viewModel.isFilterApplied()) {
-            val newColor = ContextCompat.getColor(this, R.color.space_x_green_dark)
-            binding.filterImage.setColorFilter(newColor, PorterDuff.Mode.SRC_ATOP)
-        } else {
-            binding.filterImage.clearColorFilter()
+    private fun setupSwipeToRefresh() {
+        binding.swipeToRefresh.setOnRefreshListener {
+            viewModel.getCompany()
+            viewModel.getLaunches()
         }
-    }
-
-
-    private fun showEditDialog() {
-        val fm: FragmentManager = supportFragmentManager
-        val editNameDialogFragment =
-            LaunchFilterDialog()
-        editNameDialogFragment.show(fm, "fragment_filter_dialog")
-    }
-
-
-    private fun setUpLaunchRecyclerView() = with(binding.launchRecyclerView) {
-        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        setHasFixedSize(true)
-        this.layoutManager = layoutManager
-        this.adapter = this@MainActivity.launchAdapter
-    }
-
-    private fun onLaunchSelected(launch: Launch) {
-        Toast.makeText(binding.root.context, "Launch ${launch.missionName}", Toast.LENGTH_SHORT)
-            .show()
     }
 
     private fun setUpResourceObserver() {
@@ -90,28 +66,23 @@ class MainActivity : AppCompatActivity() {
             error = ::onCompanyError,
             successWithoutContent = {}
         )
-        viewModel.launches.observe(
-            this@MainActivity
-        ) {
-            onLaunchesReceived(it)
-        }
+        viewModel.launchListLiveData.observeResource(
+            this@MainActivity,
+            loading = ::onLaunchLoading,
+            success = ::onLaunchSuccess,
+            error = ::onLaunchError,
+            successWithoutContent = {}
+        )
     }
 
-    private fun setUpCompany() {
-        viewModel.getCompanyDetail()
-    }
-
-    private fun setUpLaunches() {
-        viewModel.getAllLaunches()
-    }
-
+    //region company
     private fun onCompanyLoading() {
         showMessage("company loading")
     }
 
-    private fun onCompanyError(exception: Exception) {
+    private fun onCompanyError(e: Exception) {
         showMessage("error company loading")
-        Log.d(TAG, exception.message ?: "")
+        Timber.d(TAG, e.message ?: "")
     }
 
     private fun onCompanyReceived(company: Company?) {
@@ -129,14 +100,64 @@ class MainActivity : AppCompatActivity() {
             showMessage("no company to show")
         }
     }
+    //endregion
 
-    private fun onLaunchesReceived(lauches: List<Launch>?) {
-        lauches?.let {
-            launchAdapter.updateLaunches(lauches)
+    //region launch
+    private fun onLaunchLoading() {
+        showMessage("launch loading")
+    }
+
+    private fun onLaunchError(e: Exception) {
+        showMessage("error launch loading")
+        Timber.d(TAG, e.message ?: "")
+    }
+
+    private fun onLaunchSuccess(launches: List<Launch>?) {
+        launches?.let {
+            adapter.updateLaunches(launches)
         } ?: run {
             showMessage("no launches to show")
         }
     }
+
+
+    //region filterdialog
+    private fun setUpButton() = with(binding) {
+        filterImage.setOnClickListener {
+            showFilterDialog()
+        }
+    }
+
+    private fun showFilterDialog() {
+        LaunchFilterDialog().show(supportFragmentManager, "fragment_filter_dialog")
+    }
+    //endregion
+
+    private fun setUpRecyclerView() = with(binding.launchRecyclerView) {
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        val scrollListener: EndlessRecyclerViewScrollListener =
+            object : EndlessRecyclerViewScrollListener(layoutManager) {
+                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                    val params = viewModel.getLaunchParameters()
+                    params.page = page
+                    viewModel.setLaunchParameters(params)
+                    viewModel.getLaunches()
+                }
+            }
+        scrollListener.resetState()
+        binding.launchRecyclerView.addOnScrollListener(scrollListener)
+        setHasFixedSize(true)
+        this.layoutManager = layoutManager
+        this.adapter = this@MainActivity.adapter
+    }
+
+
+    private fun onLaunchSelected(launch: Launch) {
+        Toast.makeText(binding.root.context, "Launch ${launch.missionName}", Toast.LENGTH_SHORT)
+            .show()
+    }
+    //endregion
 
     private fun showMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

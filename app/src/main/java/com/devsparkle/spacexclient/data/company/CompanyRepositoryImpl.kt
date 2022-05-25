@@ -5,9 +5,9 @@ import com.devsparkle.spacexclient.data.company.mapper.toDomain
 import com.devsparkle.spacexclient.data.company.model.CompanyDTO
 import com.devsparkle.spacexclient.data.company.remote.CompanyService
 import com.devsparkle.spacexclient.domain.model.Company
-import com.devsparkle.spacexclient.domain.repository.CompanyRepository
+import com.devsparkle.spacexclient.domain.repository.remote.CompanyRepository
 
-class CompanyRepositoryImpl(private val companyService: CompanyService):  CompanyRepository {
+class CompanyRepositoryImpl(private val companyService: CompanyService): CompanyRepository {
 
     override suspend fun getCompanyDetail(): Resource<Company> {
         val response = Resource.of<CompanyDTO?> {

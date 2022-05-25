@@ -1,4 +1,4 @@
-package com.devsparkle.spacexclient.domain.repository
+package com.devsparkle.spacexclient.domain.repository.remote
 
 import com.devsparkle.spacexclient.base.resource.Resource
 import com.devsparkle.spacexclient.domain.model.Company

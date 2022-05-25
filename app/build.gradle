@@ -97,6 +97,7 @@ dependencies {
     // Architecture Components
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$archLifecycleVersion"
@@ -146,6 +147,9 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3LoggingInterceptorVersion"
+
+    //Logging
+    implementation "com.jakewharton.timber:timber:$timberVersion"
 
     // -- Bug fix stuff -- //
     // fix to compile the project on Apple Silicon M1 device

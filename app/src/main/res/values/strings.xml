@@ -21,4 +21,5 @@
 
     <string name="title_sort_by">Sort by:</string>
     <string name="title_filter_by">Filter by:</string>
+    <string name="image_of_the_filter_for_launches">Image of the filter for Launches</string>
 </resources>

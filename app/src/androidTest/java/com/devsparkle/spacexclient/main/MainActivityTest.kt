@@ -1,14 +1,10 @@
 package com.devsparkle.spacexclient.main
 
-import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.devsparkle.spacexclient.R
-import com.devsparkle.spacexclient.domain.repository.LaunchRepository
-import com.github.javafaker.Faker
+//import androidx.test.core.app.ActivityScenario
+//import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.runner.AndroidJUnit4
+import com.devsparkle.spacexclient.domain.repository.remote.LaunchRepository
+//import com.github.javafaker.Faker
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -30,7 +26,7 @@ class MainActivityTest : KoinTest {
     }
 
     private val mockLaunchRepository: LaunchRepository by inject()
-    private var faker = Faker()
+  //  private var faker = Faker()
 
     @Test
     fun onLaunchButtonIsDisplayed() = runTest {
@@ -43,7 +39,7 @@ class MainActivityTest : KoinTest {
             }
         }
 
-        ActivityScenario.launch(MainActivity::class.java)
+ //       ActivityScenario.launch(MainActivity::class.java)
 //        Espresso.onView(withId(R.id.buttonNewJoke))
 //            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }

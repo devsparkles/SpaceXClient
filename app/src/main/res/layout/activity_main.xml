@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.devsparkle.spacexclient.main.MainViewModel" />
@@ -33,6 +34,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:contentDescription="@string/image_of_the_filter_for_launches"
                 android:id="@+id/filterImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,13 +100,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/launchRecyclerView"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeToRefresh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_launches_header" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_launches_header">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/launch_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
