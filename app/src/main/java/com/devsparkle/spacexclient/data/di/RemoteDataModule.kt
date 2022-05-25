@@ -3,12 +3,14 @@ package com.devsparkle.spacexclient.data.di
 
 import com.devsparkle.spacexclient.data.company.CompanyRepositoryImpl
 import com.devsparkle.spacexclient.data.company.remote.CompanyService
-import com.devsparkle.spacexclient.data.launch.remote.repository.LaunchRepositoryImpl
 import com.devsparkle.spacexclient.data.launch.remote.LaunchService
+import com.devsparkle.spacexclient.data.launch.remote.repository.LaunchRepositoryImpl
 import com.devsparkle.spacexclient.data.rocket.remote.RocketService
+import com.devsparkle.spacexclient.data.rocket.remote.repository.RocketRepositoryImpl
 import com.devsparkle.spacexclient.data.utils.SpaceXApi.Companion.createSpaceXRetrofit
 import com.devsparkle.spacexclient.domain.repository.remote.CompanyRepository
 import com.devsparkle.spacexclient.domain.repository.remote.LaunchRepository
+import com.devsparkle.spacexclient.domain.repository.remote.RocketRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -20,6 +22,12 @@ const val SPACEX_RETROFIT = "SPACEX_RETROFIT"
 val remoteDataModule = module {
 
     factory {
+        RocketRepositoryImpl(
+            get<RocketService>()
+        ) as RocketRepository
+    }
+
+    factory {
         CompanyRepositoryImpl(
             get<CompanyService>()
         ) as CompanyRepository
@@ -27,8 +35,7 @@ val remoteDataModule = module {
 
     factory {
         LaunchRepositoryImpl(
-            get<LaunchService>(),
-            get<RocketService>()
+            get<LaunchService>()
         ) as LaunchRepository
     }
 

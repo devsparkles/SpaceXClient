@@ -5,7 +5,6 @@ import com.devsparkle.spacexclient.data.launch.mapper.toDomain
 import com.devsparkle.spacexclient.data.launch.remote.LaunchService
 import com.devsparkle.spacexclient.data.launch.remote.model.LaunchDTO
 import com.devsparkle.spacexclient.data.launch.remote.model.PageSummaryDTO
-import com.devsparkle.spacexclient.data.rocket.remote.RocketService
 import com.devsparkle.spacexclient.domain.model.Launch
 import com.devsparkle.spacexclient.domain.model.Rocket
 import com.devsparkle.spacexclient.domain.model.paged.PageSummary
@@ -13,8 +12,7 @@ import com.devsparkle.spacexclient.domain.repository.remote.LaunchRepository
 import timber.log.Timber
 
 class LaunchRepositoryImpl(
-    private val launchService: LaunchService,
-    private val rocketService: RocketService
+    private val launchService: LaunchService
 ) : LaunchRepository {
 
     override suspend fun getAllLaunches(): List<Launch> {

@@ -12,15 +12,14 @@ import com.devsparkle.spacexclient.domain.model.Company
 import com.devsparkle.spacexclient.domain.model.Launch
 import com.devsparkle.spacexclient.domain.use_case.GetCompanyDetail
 import com.devsparkle.spacexclient.domain.use_case.GetFilteredLaunchList
-import com.devsparkle.spacexclient.domain.use_case.GetLaunchList
-import com.devsparkle.spacexclient.domain.use_case.ObserveLaunches
-import com.devsparkle.spacexclient.domain.use_case.SaveLaunch
+import com.devsparkle.spacexclient.domain.use_case.GetRocketById
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainViewModel(
+    private val getRocketById: GetRocketById,
     private val getFilteredLaunchList: GetFilteredLaunchList,
     private val getCompanyDetail: GetCompanyDetail,
     private val launchRequestParametersCache: LaunchRequestParametersCache,
@@ -58,6 +57,15 @@ class MainViewModel(
                 )
             }
             if (response != null) {
+                response.docs?.forEach { l ->
+                    if(l.rocket?.rocketId != null && l.rocket.rocketId!= null){
+                        l.rocket.rocketId?.let {
+                            val rocket =  getRocketById.invoke(it)
+                            l.rocket.name = rocket.name
+                            l.rocket.type = rocket.type
+                        }
+                    }
+                }
                 _launchListLiveData.postValue(Resource.of { response.docs })
             } else {
                 _launchListLiveData.postValue(Resource.Error())
