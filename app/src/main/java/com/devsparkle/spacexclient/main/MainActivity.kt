@@ -131,6 +131,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onLaunchSuccess(launches: List<Launch>?) {
+        binding.swipeToRefresh.isRefreshing = false
         launches?.let {
             adapter.updateLaunches(launches)
         } ?: run {
