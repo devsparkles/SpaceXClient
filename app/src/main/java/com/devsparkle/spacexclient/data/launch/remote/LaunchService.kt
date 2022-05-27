@@ -15,9 +15,9 @@ interface LaunchService {
     @POST("/v4/launches/query")
     suspend fun filter(@Query("page") page: Int,
                        @Query("size") size: Int,
-                       @Query("launch_year") launchYear: Int,
-                       @Query("launch_success") launchSuccess: Boolean,
-                       @Query("order") order: String): PageSummaryDTO<List<LaunchDTO>?>
+                       @Query("launch_year") launchYear: String?,
+                       @Query("launch_success") launchSuccess: Boolean?,
+                       @Query("order") order: String?): PageSummaryDTO<List<LaunchDTO>?>
 
 
 

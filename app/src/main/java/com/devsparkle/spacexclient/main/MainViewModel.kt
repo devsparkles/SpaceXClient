@@ -58,9 +58,9 @@ class MainViewModel(
             }
             if (response != null) {
                 response.docs?.forEach { l ->
-                    if(l.rocket?.rocketId != null && l.rocket.rocketId!= null){
+                    if (l.rocket?.rocketId != null && l.rocket.rocketId != null) {
                         l.rocket.rocketId?.let {
-                            val rocket =  getRocketById.invoke(it)
+                            val rocket = getRocketById.invoke(it)
                             l.rocket.name = rocket.name
                             l.rocket.type = rocket.type
                         }
@@ -80,5 +80,6 @@ class MainViewModel(
     fun getLaunchParameters(): LaunchParameters {
         return launchRequestParametersCache.getFromCache()
     }
+
 
 }

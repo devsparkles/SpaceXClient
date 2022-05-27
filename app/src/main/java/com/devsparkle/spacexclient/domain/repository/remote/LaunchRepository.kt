@@ -8,8 +8,8 @@ interface LaunchRepository {
 
     suspend fun filter(
         page: Int, size: Int,
-        launchYear: Int,
-        launchSuccess: Boolean,
-        orderBy: String
+        launchYear: String?,
+        launchSuccess: Boolean?,
+        orderBy: String?
     ): PageSummary<List<Launch>>?
 }

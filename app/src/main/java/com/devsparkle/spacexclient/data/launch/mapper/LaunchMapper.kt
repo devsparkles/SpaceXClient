@@ -26,6 +26,7 @@ fun List<LaunchDTO>.toDomain(): MutableList<Launch> {
 
 fun LaunchDTO?.toDomain(): Launch {
     return Launch(
+        id = this?.flightNumber,
         missionName = this?.name,
         success = this?.success,
         dateUtc = this?.dateUtc,
@@ -41,6 +42,7 @@ fun LaunchDTO?.toDomain(): Launch {
 
 fun Launch?.toEntity(): LaunchEntity {
     return LaunchEntity(
+        id = this?.id ?: "",
         name = this?.missionName ?: "",
         success = this?.success ?: false,
         dateUtc = this?.dateUtc ?: "",
@@ -53,6 +55,7 @@ fun Launch?.toEntity(): LaunchEntity {
 
 fun LaunchEntity?.toView(): Launch {
     return Launch(
+        id = this?.id,
         missionName = this?.name,
         success = this?.success,
         dateUtc = this?.dateUtc,

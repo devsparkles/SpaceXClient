@@ -2,6 +2,8 @@ package com.devsparkle.spacexclient.main.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.Nullable
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -17,21 +19,26 @@ import com.devsparkle.spacexclient.utils.toDate
 
 class LaunchAdapter(private val clickCallback: ((Launch) -> Unit)) :
     RecyclerView.Adapter<LaunchAdapter.ViewHolder>() {
+
     private var launches: List<Launch> = emptyList()
+//
+//    fun reset() {
+//        this.launches = mutableListOf()
+//        notifyDataSetChanged()
+//    }
 
-    fun reset() {
-        this.launches = emptyList()
+    fun updateLaunches(newlauches: List<Launch>) {
+        this.launches = this.launches.plus(newlauches)
         notifyDataSetChanged()
     }
 
-    fun updateLaunches(lauches: List<Launch>) {
-        this.launches = this.launches.plus(lauches)
-        notifyDataSetChanged()
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ViewHolderLaunchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ViewHolderLaunchBinding.inflate(
+                LayoutInflater.from(viewGroup.context),
+                viewGroup,
+                false
+            )
         return ViewHolder(clickCallback, binding)
     }
 
@@ -41,7 +48,29 @@ class LaunchAdapter(private val clickCallback: ((Launch) -> Unit)) :
 
     override fun getItemCount(): Int = launches.count()
 
-    class ViewHolder(
+
+    inner class DiffCallback(private val oldList: List<Launch>, private val newList: List<Launch>) :
+        DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int = oldList.size
+
+        override fun getNewListSize(): Int = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].success === newList.get(newItemPosition).success
+        }
+
+        override fun areContentsTheSame(oldPosition: Int, newPosition: Int): Boolean {
+            return oldList[oldPosition] == newList[newPosition]
+        }
+
+        @Nullable
+        override fun getChangePayload(oldPosition: Int, newPosition: Int): Any? {
+            return super.getChangePayload(oldPosition, newPosition)
+        }
+    }
+
+    inner class ViewHolder(
         private val clickCallback: (Launch) -> Unit,
         private val binding: ViewHolderLaunchBinding
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -83,7 +112,8 @@ class LaunchAdapter(private val clickCallback: ((Launch) -> Unit)) :
                         .load(R.drawable.ic_baseline_done_24)
                         .fitCenter().into(binding.ivSuccessFail)
                 } else {
-                    Glide.with(binding.root.context).asBitmap().load(R.drawable.ic_baseline_clear_24)
+                    Glide.with(binding.root.context).asBitmap()
+                        .load(R.drawable.ic_baseline_clear_24)
                         .fitCenter().into(binding.ivSuccessFail)
                 }
             }

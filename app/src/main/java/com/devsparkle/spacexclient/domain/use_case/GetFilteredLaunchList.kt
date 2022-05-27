@@ -9,9 +9,9 @@ class GetFilteredLaunchList(
 ) {
     suspend operator fun invoke(
         page: Int, size: Int,
-        launchYear: Int,
-        launchSuccess: Boolean,
-        orderBy: String
+        launchYear: String?,
+        launchSuccess: Boolean?,
+        orderBy: String?
     ): PageSummary<List<Launch>>? {
         return launchRepository.filter(page, size, launchYear, launchSuccess, orderBy)
     }
