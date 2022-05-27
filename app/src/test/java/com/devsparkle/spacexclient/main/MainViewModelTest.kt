@@ -34,9 +34,6 @@ import java.util.concurrent.TimeUnit
 @RunWith(MockitoJUnitRunner.Silent::class)
 class MainViewModelTest {
 
-//    @get:Rule
-//    val coroutineRule = MainCoroutineRule()
-
     @OptIn(ExperimentalCoroutinesApi::class)
     val testDispatcher = StandardTestDispatcher()
 
@@ -75,7 +72,7 @@ class MainViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(mainThreadSurrogate)
-        server.setDispatcher(dispatcher)
+        server.dispatcher = (dispatcher)
         server.start()
         val logger = HttpLoggingInterceptor()
         val client = OkHttpClient.Builder()

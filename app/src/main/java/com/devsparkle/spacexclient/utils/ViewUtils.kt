@@ -5,13 +5,13 @@ import android.widget.ProgressBar
 
 object ViewUtils {
     fun showViewHideProgressBar(view: View, progressBar: ProgressBar) {
-        view.visibility = View.VISIBLE
-        progressBar.visibility = View.GONE
+        view.show()
+        progressBar.hide()
     }
 
     fun hideViewShowProgressBar(view: View, progressBar: ProgressBar) {
-        view.visibility = View.GONE
-        progressBar.visibility = View.VISIBLE
+        view.hide()
+        progressBar.show()
     }
 }
 
