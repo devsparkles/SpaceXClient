@@ -44,6 +44,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.koin.test.AutoCloseKoinTest
 import org.koin.test.KoinTest
+import java.util.concurrent.TimeUnit
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
@@ -192,6 +193,11 @@ class VerifyOrderDESCMainActivityTest : KoinTest {
             )
         )
         actionMenuItemView2.perform(ViewActions.click())
+
+        // wait for loading
+
+        TimeUnit.SECONDS.sleep(20);
+
         val textView = Espresso.onView(
             Matchers.allOf(
                 ViewMatchers.withId(R.id.tv_date_time_value),
