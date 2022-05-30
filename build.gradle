@@ -52,7 +52,7 @@ ext {
     preferenceKtxVersion = "1.2.0"
     recyclerViewVersion = "1.2.1"
     retrofitVersion = "2.9.0"
-    robolectricVersion = "4.8"
+    robolectricVersion = "4.8.1"
     roomVersion = "2.4.2"
     rulesVersion = "1.0.1"
     sqliteJdbcVersion = "3.34.0"

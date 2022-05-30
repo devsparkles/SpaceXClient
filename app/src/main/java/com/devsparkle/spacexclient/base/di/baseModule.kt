@@ -9,10 +9,6 @@ import org.koin.dsl.module
 
 const val SPACE_X_URL = "SPACE_X_URL"
 
-val urlsModule = module {
-    single(named(SPACE_X_URL)){ BuildConfig.API_URL }
-}
-
 val baseModule = module {
 
     factory {

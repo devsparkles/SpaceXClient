@@ -18,12 +18,19 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "com.devsparkle.spacexclient.ApiTestRunner"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.devsparkle.spacexclient.runner.ApiTestRunner"
     }
 
     buildTypes {
+        debug {
+
+            manifestPlaceholders = [usesCleartextTraffic:"true"]
+
+        }
         release {
+
+            manifestPlaceholders = [usesCleartextTraffic:"false"]
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -137,7 +144,7 @@ dependencies {
     testImplementation "io.insert-koin:koin-test:$koinVersion"
     testImplementation "io.insert-koin:koin-test-junit4:$koinVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesTestVersion"
-//   / testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    //testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "io.mockk:mockk:1.12.2"
     testImplementation 'com.android.support.test:rules:1.0.2'
     testImplementation 'com.android.support.test:runner:1.0.2'
@@ -153,7 +160,7 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$androidXTestRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.0-alpha06"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesTestVersion"
-//    androidTestImplementation "org.robolectric:robolectric:$robolectricVersion"
+   // androidTestImplementation "org.robolectric:robolectric:$robolectricVersion"
     androidTestImplementation "io.mockk:mockk:1.12.2"
     // -- Third party stuff -- //
     // Dependency injection - Koin for Kotlin apps
@@ -184,6 +191,7 @@ dependencies {
     kapt "org.xerial:sqlite-jdbc:$sqliteJdbcVersion"
 
 
+    implementation "androidx.test.espresso:espresso-idling-resource:3.4.0"
 
 
 

@@ -13,7 +13,6 @@ import androidx.test.filters.LargeTest
 import com.devsparkle.spacexclient.R
 import com.devsparkle.spacexclient.base.di.SPACE_X_URL
 import com.devsparkle.spacexclient.base.di.baseModule
-import com.devsparkle.spacexclient.base.di.urlsModule
 import com.devsparkle.spacexclient.data.di.localDataModule
 import com.devsparkle.spacexclient.data.di.remoteDataModule
 import com.devsparkle.spacexclient.domain.di.domainModule
@@ -112,7 +111,6 @@ class VerifyOrderDESCMainActivityTest : KoinTest {
             startKoin {
                 modules(
                     listOf(
-                        urlsModule,
                         // shared module
                         baseModule,
                         // data remote and local module

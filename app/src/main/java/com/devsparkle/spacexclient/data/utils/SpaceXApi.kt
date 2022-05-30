@@ -12,11 +12,11 @@ import java.util.concurrent.TimeUnit
 interface SpaceXApi {
     companion object {
 
-        fun createSpaceXRetrofit(context:Context): Retrofit {
+        fun createSpaceXRetrofit(context:Context, serverUrl: String): Retrofit {
             val okHttpClient = createOkHttpClient(context)
 
             return Retrofit.Builder()
-                .baseUrl(BuildConfig.API_URL)
+                .baseUrl(serverUrl)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

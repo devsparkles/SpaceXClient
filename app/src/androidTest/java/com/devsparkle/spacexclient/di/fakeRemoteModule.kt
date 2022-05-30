@@ -1,14 +1,13 @@
-package com.devsparkle.spacexclient.data.di
+package com.devsparkle.spacexclient.di
 
-
-import com.devsparkle.spacexclient.BuildConfig
 import com.devsparkle.spacexclient.data.company.CompanyRepositoryImpl
 import com.devsparkle.spacexclient.data.company.remote.CompanyService
 import com.devsparkle.spacexclient.data.launch.remote.LaunchService
 import com.devsparkle.spacexclient.data.launch.remote.repository.LaunchRepositoryImpl
 import com.devsparkle.spacexclient.data.rocket.remote.RocketService
 import com.devsparkle.spacexclient.data.rocket.remote.repository.RocketRepositoryImpl
-import com.devsparkle.spacexclient.data.utils.SpaceXApi.Companion.createSpaceXRetrofit
+import com.devsparkle.spacexclient.data.utils.SpaceXApi
+import com.devsparkle.spacexclient.domain.model.Company
 import com.devsparkle.spacexclient.domain.repository.remote.CompanyRepository
 import com.devsparkle.spacexclient.domain.repository.remote.LaunchRepository
 import com.devsparkle.spacexclient.domain.repository.remote.RocketRepository
@@ -21,7 +20,7 @@ import retrofit2.Retrofit
 const val SPACEX_RETROFIT = "SPACEX_RETROFIT"
 const val SERVER_URL = "SERVER_URL"
 
-val remoteDataModule = module {
+val fakeRemoteModule = module {
 
     factory {
         RocketRepositoryImpl(
@@ -42,11 +41,11 @@ val remoteDataModule = module {
     }
 
     single(named(SERVER_URL)) {
-        BuildConfig.API_URL
+        "http://localhost:8080/"
     }
 
     single(named(SPACEX_RETROFIT)) {
-        createSpaceXRetrofit(androidContext(), get<String>(named(SERVER_URL)))
+        SpaceXApi.createSpaceXRetrofit(androidContext(), get(named(SERVER_URL)) )
     }
 
     factory {
