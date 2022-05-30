@@ -1,5 +1,6 @@
 package com.devsparkle.spacexclient
 
+import com.devsparkle.spacexclient.data.launch.filter.Order
 import com.devsparkle.spacexclient.main.CommonTestDataUtil
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
@@ -13,7 +14,6 @@ internal class SpaceXRequestDispatcher : Dispatcher() {
     override fun dispatch(request: RecordedRequest): MockResponse {
         if (request.method.equals("POST")) {
             return when (request.path) {
-
                 "/v4/launches/query?page=0&size=5&launch_year=2022&launch_success=true&order=ASC" -> {
                     MockResponse().setResponseCode(200)
                         .setBody(
@@ -26,8 +26,18 @@ internal class SpaceXRequestDispatcher : Dispatcher() {
                             CommonTestDataUtil.readFile("launch-sort-desc.json")
                         )
                 }
-
-
+                "/v4/launches/query?page=1&size=5&launch_year=2022&launch_success=true&order=ASC" -> {
+                    MockResponse().setResponseCode(200)
+                        .setBody(
+                            CommonTestDataUtil.readFile("launch-sort-asc.json")
+                        )
+                }
+                "/v4/launches/query?page=1&size=5&launch_year=2022&launch_success=true&order=DESC" -> {
+                    MockResponse().setResponseCode(200)
+                        .setBody(
+                            CommonTestDataUtil.readFile("launch-sort-desc.json")
+                        )
+                }
                 else -> {
                     MockResponse().setResponseCode(404).setBody("{}")
                 }
