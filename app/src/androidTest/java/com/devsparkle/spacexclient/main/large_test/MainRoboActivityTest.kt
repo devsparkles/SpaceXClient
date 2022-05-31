@@ -57,7 +57,7 @@ class MainRoboActivityTest : BaseTest() {
     fun testAssertHelloText() {
 
 
-        Thread.sleep(4_000)
+        Thread.sleep(15_000)
     //    onView(withId(R.id.action_filter)).check(ViewAssertions.matches(withText("FILTER")))
     }
 

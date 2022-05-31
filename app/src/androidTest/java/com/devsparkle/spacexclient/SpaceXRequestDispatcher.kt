@@ -1,6 +1,5 @@
 package com.devsparkle.spacexclient
 
-import com.devsparkle.spacexclient.data.launch.filter.Order
 import com.devsparkle.spacexclient.main.CommonTestDataUtil
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
@@ -17,25 +16,49 @@ internal class SpaceXRequestDispatcher : Dispatcher() {
                 "/v4/launches/query?page=0&size=5&launch_year=2022&launch_success=true&order=ASC" -> {
                     MockResponse().setResponseCode(200)
                         .setBody(
-                            CommonTestDataUtil.readFile("launch-sort-asc.json")
-                        )
-                }
-                "/v4/launches/query?page=0&size=5&launch_year=2022&launch_success=true&order=DESC" -> {
-                    MockResponse().setResponseCode(200)
-                        .setBody(
-                            CommonTestDataUtil.readFile("launch-sort-desc.json")
+                            CommonTestDataUtil.readFile("launch-sort-asc-page-0.json")
                         )
                 }
                 "/v4/launches/query?page=1&size=5&launch_year=2022&launch_success=true&order=ASC" -> {
                     MockResponse().setResponseCode(200)
                         .setBody(
-                            CommonTestDataUtil.readFile("launch-sort-asc.json")
+                            CommonTestDataUtil.readFile("launch-sort-asc-page-1.json")
+                        )
+                }
+                "/v4/launches/query?page=2&size=5&launch_year=2022&launch_success=true&order=ASC" -> {
+                    MockResponse().setResponseCode(200)
+                        .setBody(
+                            CommonTestDataUtil.readFile("launch-sort-asc-page-2.json")
+                        )
+                }
+                "/v4/launches/query?page=3&size=5&launch_year=2022&launch_success=true&order=ASC" -> {
+                    MockResponse().setResponseCode(200)
+                        .setBody(
+                            CommonTestDataUtil.readFile("launch-sort-asc-page-3.json")
+                        )
+                }
+                "/v4/launches/query?page=0&size=5&launch_year=2022&launch_success=true&order=DESC" -> {
+                    MockResponse().setResponseCode(200)
+                        .setBody(
+                            CommonTestDataUtil.readFile("launch-sort-desc-page-0.json")
                         )
                 }
                 "/v4/launches/query?page=1&size=5&launch_year=2022&launch_success=true&order=DESC" -> {
                     MockResponse().setResponseCode(200)
                         .setBody(
-                            CommonTestDataUtil.readFile("launch-sort-desc.json")
+                            CommonTestDataUtil.readFile("launch-sort-desc-page-1.json")
+                        )
+                }
+                "/v4/launches/query?page=2&size=5&launch_year=2022&launch_success=true&order=DESC" -> {
+                    MockResponse().setResponseCode(200)
+                        .setBody(
+                            CommonTestDataUtil.readFile("launch-sort-desc-page-2.json")
+                        )
+                }
+                "/v4/launches/query?page=3&size=5&launch_year=2022&launch_success=true&order=DESC" -> {
+                    MockResponse().setResponseCode(200)
+                        .setBody(
+                            CommonTestDataUtil.readFile("launch-sort-desc-page-3.json")
                         )
                 }
                 else -> {
